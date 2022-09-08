@@ -3,7 +3,6 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     beforeEnter: (to, from, next) => {
-      console.log(from);
       if (!to.query.code) {
         window.location.href =
           process.env.AUTH_LINK + `&state=${to.query.state}`;
