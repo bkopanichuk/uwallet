@@ -4,7 +4,10 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     beforeEnter: (to, from, next) => {
       if (!to.query.code) {
-        window.location.href = process.env.AUTH_LINK;
+        const state =
+          Math.random().toString(36).substring(2) + Date.now().toString(36);
+
+        window.location.href = process.env.AUTH_LINK + `&state=${state}`;
       } else {
         next();
       }
