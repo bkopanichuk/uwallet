@@ -2,6 +2,13 @@ const routes = [
   {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
+    beforeEnter: (to, from, next) => {
+      if (!to.query.code) {
+        window.location.href = process.env.AUTH_LINK;
+      } else {
+        next();
+      }
+    },
     children: [
       { path: "", component: () => import("pages/IndexPage.vue") },
       {
