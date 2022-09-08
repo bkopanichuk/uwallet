@@ -1,13 +1,26 @@
+import { Cookies } from "quasar";
+
 const routes = [
   {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     beforeEnter: (to, from, next) => {
-      if (!to.query.code) {
+      if (!to.query.code && to.query.state) {
+        Cookies.set("state", to.query.state, { expires: "15m" });
+        Cookies.set("redirect_uri", to.query.redirect_uri, { expires: "15m" });
         window.location.href =
           process.env.AUTH_LINK + `&state=${to.query.state}`;
       } else {
-        next();
+        let state = Cookies.get("state");
+        let redirect_uri = Cookies.get("redirect_uri");
+        if (to.query.state === state && redirect_uri) {
+          window.location.href =
+            redirect_uri +
+            `&state=${to.query.state}` +
+            `&code=${to.query.code}`;
+        } else {
+          next();
+        }
       }
     },
     children: [
