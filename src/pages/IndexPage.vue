@@ -1,14 +1,15 @@
 <template>
   <q-page class="flex column flex-center">
-    <q-btn @click="redirectToLoginPage()"> Login with Diia </q-btn>
     {{ $route.query.code ? "Code: " + $route.query.code : "No code" }}
   </q-page>
 </template>
 
 <script>
 export default {
-  data() {
-    return {};
+  beforeCreate() {
+    if (!this.$route.query.code) {
+      this.redirectToLoginPage();
+    }
   },
   methods: {
     redirectToLoginPage() {
