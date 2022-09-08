@@ -13,10 +13,12 @@ const routes = [
       } else {
         let state = Cookies.get("state");
         let redirect_uri = Cookies.get("redirect_uri");
+        Cookies.remove("state");
+        Cookies.remove("redirect_uri");
         if (to.query.state === state && redirect_uri) {
           window.location.href =
             redirect_uri +
-            `&state=${to.query.state}` +
+            `?state=${to.query.state}` +
             `&code=${to.query.code}`;
         } else {
           next();
